@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addMessage } from "../utils/chatSlice"
 import { generateRandomName } from '../utils/helper'
 const LiveChat = () => {
-    const [hideChat,sethideChat] = useState(false)
+    const [hideChat,sethideChat] = useState(true)
 
     const [liveMessage,setliveMessage] = useState("")
     const dispatch = useDispatch();

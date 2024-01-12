@@ -1,43 +1,38 @@
-// import React, { useEffect, useState } from "react"
-// import { useSelector } from "react-redux"
-// import { SEARCH_VIDEOS } from "../utils/constant"
+import React, { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import { SEARCH_VIDEOS } from "../utils/constant"
+import SearchCard from "./SearchCard"
+import { Link, useSearchParams } from "react-router-dom"
+import ButtonList from "./ButtonList"
 
-// const SearchPage = () => {
-
-//     const [filterVideos,setfilterVideos] = useState(null)
-
-//     const searchQuery = useSelector((store) => store.query)
-
-//     useEffect(() => {
-//         getFilteredVideos()
-//       },[searchQuery])
+const SearchPage = () => {
+    const [filterVideos, setfilterVideos] = useState(null)
     
-//     const getFilteredVideos = async() => {
-//         const data = await fetch(SEARCH_VIDEOS(searchQuery))
+    const [videoId] = useSearchParams()
 
-//         const json = await data.json()
-        
-//         setfilterVideos(json.items)
-//         console.log(filterVideos)
-//     }
-//     if(filterVideos === null)return null
-    
-//     const {thumbnails,title,channelTitle} = filterVideos[0].snippet
-//     return (
-//         <div className="flex gap-4 pt-8">
-//             <div className="">
-//                 <img className="rounded-2xl w-96 h-72" src={thumbnails.medium.url} alt="thumbnail"/>
-//             </div>
-//             <div className="">
-//                 <h3>{title}</h3>
-//                 <div className="flex">
-//                     <p>views</p>
-//                     <p>2 weeks ago</p>
-//                 </div>
-//                 <p>{channelTitle}</p>
-//             </div>
-//         </div>
-//     )
-// }
+    useEffect(() => {
+        if (videoId) {
+            getFilteredVideos(videoId.get('query'));
+        }
+    }, [videoId])
 
-// export default SearchPage
+    const getFilteredVideos = async (query) => {
+        const data = await fetch(SEARCH_VIDEOS(query))
+
+        const json = await data.json()
+
+        setfilterVideos(json.items)
+    }
+    if (filterVideos === null) return null
+
+    return (
+        <div className="mx-12 px-4">
+            <div className="pb-4">
+            <ButtonList/>
+            </div>
+            {filterVideos.map((video,index) => <Link key={index} to={"/watch?v="+ video.id.videoId}><SearchCard key={index} info = {video}/> </Link>)}
+        </div>
+    )
+}
+
+export default SearchPage

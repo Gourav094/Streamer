@@ -48,10 +48,17 @@ export const formateUploadTime = (timer) => {
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
+    const month = Math.floor(days/30);
+    const year = Math.floor(month/12)
 
     let timeAgo;
-
-    if (days > 0) {
+    if(year > 0){
+        timeAgo = year === 1 ? '1 year ago' : `${year} years ago`
+    }
+    else if(month > 0){
+        timeAgo = month === 1 ? '1 month ago' : `${month} months ago`
+    }
+    else if (days > 0) {
     timeAgo = days === 1 ? '1 day ago' : `${days} days ago`;
     } else if (hours > 0) {
     timeAgo = hours === 1 ? '1 hour ago' : `${hours} hours ago`;

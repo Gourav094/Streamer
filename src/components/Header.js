@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constant";
 import { cacheResult } from "../utils/searchSlice";
-import { searchResult } from "../utils/querySlice";
-
+import { Link } from "react-router-dom"
 const Header = () => {
     const [searchQuery, setsearchQuery] = useState("");
     const [suggestion, setsuggestion] = useState([])
@@ -14,10 +13,10 @@ const Header = () => {
     
     const searchCache = useSelector((store) => store.search)
     
+
     useEffect(() => {
         // make an api call for every key press
         // but if diff b/w api call is less than 200 -> decline api call
-        dispatch(searchResult(searchQuery))
 
         const timer = setTimeout(() => {
             if(searchCache[searchQuery]){
@@ -58,17 +57,21 @@ const Header = () => {
                         handleToggleMenu();
                     }}
                 ></i>
-
+                <Link to="/">
                 <img
                     className="h-5"
                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/1024px-YouTube_Logo_2017.svg.png"
                     alt="Logo"
                 />
+                </Link>
             </div>
 
             <div className="col-span-8 w-3/4 relative">
-                <div className=" flex items-center ">
-
+                <form className=" flex items-center"
+                    onSubmit={(e) => {
+                        e.preventDefault();                        
+                    }}
+                >
                     <input
                         className="w-4/6 px-4 py-1 border border-gray-200 rounded-l-full outline-none"
                         type="text"
@@ -80,8 +83,12 @@ const Header = () => {
                         onFocus={() => setshowSuggestion(true)}
                         onBlur={() => setshowSuggestion(false)}
                     />
-                    <i className="fa-solid fa-magnifying-glass py-2 px-3 bg-gray-100 text-gray-600 border border-gray-200 rounded-r-full"></i>
-                </div>
+                    <Link to={"/search?query=" + searchQuery}>
+                        <button>
+                        <i className="fa-solid fa-magnifying-glass py-2 px-3 bg-gray-100 text-gray-600 border border-gray-200 rounded-r-full"></i>
+                        </button>
+                    </Link>
+                </form>
                 {showSuggestion &&
                     (<div className="absolute bg-white my-1 w-4/6 border border-gray-100 rounded-lg shadow-lg">
                         <ul>

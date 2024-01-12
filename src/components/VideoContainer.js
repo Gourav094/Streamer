@@ -5,7 +5,6 @@ import { YOUTUBE_VIDEO_API } from '../utils/constant'
  
 const VideoContainer = () => {
   const [videos,setvideos] = useState([])
-
   useEffect(() => {
     getVideoData();
   },[])
