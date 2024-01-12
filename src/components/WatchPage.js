@@ -1,32 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { closeMenu } from '../utils/appSlice';
-import { useSearchParams } from 'react-router-dom';
-import { VIDEO_DATA } from '../utils/constant';
+import { Link, useSearchParams } from 'react-router-dom';
+import { VIDEO_DATA, YOUTUBE_VIDEO_API } from '../utils/constant';
 import { formatCompactNumber } from '../utils/helper';
 import CommentContainer from './CommentContainer';
 import LiveChat from './LiveChat';
+import RelatedVideos from './RelatedVideos';
 
 const WatchPage = () => {
     const dispatch = useDispatch();
     const [videoId] = useSearchParams()
     const [videoData, setvideoData] = useState(null)
+    const [relatedVideos,setrelatedVideos] = useState([])
 
     const isMenuOpen = useSelector(store => store.app.isMenuOpen)
 
     useEffect(() => {
+        dispatch(closeMenu())
         fetchData();
     }, [])
 
     const fetchData = async () => {
-        const data = await fetch(VIDEO_DATA(videoId.get('v')))
-        const json = await data.json();
-        setvideoData(json)
+        const data = await Promise.all([fetch(VIDEO_DATA(videoId.get('v'))),fetch(YOUTUBE_VIDEO_API)])
+        const watchJson = await data[0].json();
+        const relatedJson = await data[1].json();
+        setvideoData(watchJson)
+        setrelatedVideos(relatedJson.items)
+        console.log(relatedVideos)
     }
 
-    useEffect(() => {
-        dispatch(closeMenu())
-    }, [])
 
     if (videoData === null) return null;
 
@@ -85,8 +88,13 @@ const WatchPage = () => {
                     <CommentContainer />
                 </div>
             </div>
-            <div className='w-full'>
-                <LiveChat />
+            <div className='w-1/3 flex flex-col'>
+                <div className='w-full pb-6'>
+                    <LiveChat />
+                </div>
+                <div className='px-6 w-full'>
+                    {relatedVideos.map((video) => <Link key={video.id} to={"/watch?v="+ video.id}><RelatedVideos info = {video}/> </Link>)}
+                </div>
             </div>
         </div>
     )

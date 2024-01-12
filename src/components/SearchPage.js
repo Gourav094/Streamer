@@ -8,6 +8,8 @@ import ButtonList from "./ButtonList"
 const SearchPage = () => {
     const [filterVideos, setfilterVideos] = useState(null)
     
+    const isMenuOpen = useSelector(store => store.app.isMenuOpen)
+
     const [videoId] = useSearchParams()
 
     useEffect(() => {
@@ -24,13 +26,13 @@ const SearchPage = () => {
         setfilterVideos(json.items)
     }
     if (filterVideos === null) return null
-
+    console.log(filterVideos)
     return (
-        <div className="mx-12 px-4">
+        <div className={`${isMenuOpen ? "mx-12":"mx-40"} px-4 overflow-hidden`}>
             <div className="pb-4">
             <ButtonList/>
             </div>
-            {filterVideos.map((video,index) => <Link key={index} to={"/watch?v="+ video.id.videoId}><SearchCard key={index} info = {video}/> </Link>)}
+            {filterVideos.map((video,index) => <Link key={index} to={"/watch?v="+ (video.id.videoId || video.id.playlistId)}><SearchCard key={index} info = {video}/> </Link>)}
         </div>
     )
 }

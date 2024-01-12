@@ -6,7 +6,7 @@ const SearchPage = ({ info }) => {
     const { thumbnails, title, description, publishedAt, channelTitle } = snippet
     return (
         <div className="flex gap-4 py-2 h-[280px]">
-            <div className="w-2/6 h-60">
+            <div className="w-2/6 ">
                 <img className="w-full h-full rounded-2xl" src={thumbnails.medium.url} alt="thumbnail" />
             </div>
             <div className="flex flex-col w-1/2">

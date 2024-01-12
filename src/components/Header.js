@@ -93,7 +93,7 @@ const Header = () => {
                     (<div className="absolute bg-white my-1 w-4/6 border border-gray-100 rounded-lg shadow-lg">
                         <ul>
                             {suggestion.map((s) => (
-                                <li key={s} className="py-2 px-4 text-md font-medium hover:bg-gray-100">
+                                <li key={s} className="py-2 px-4 text-md cursor-pointer font-medium hover:bg-gray-100">
                                     <i className="fa-solid fa-magnifying-glass text-xs text-gray-700 mr-4"></i>
                                     {s}</li>
                             ))}

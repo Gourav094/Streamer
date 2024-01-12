@@ -11,7 +11,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className='py-4 m-2 w-52 min-h-screen '>
+    <div className='py-4 m-2 min-w-48 min-h-screen '>
         <ul className='pb-2'>
           <li className='py-2 px-6 bg-gray-100 rounded-lg'><Link to="/">Home</Link></li>
           <li className='py-2 px-6 hover:bg-gray-100 rounded-lg'>Shorts</li>
