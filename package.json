@@ -1,10 +1,6 @@
 {
   "name": "namaste-youtube",
   "version": "0.1.0",
-<<<<<<< HEAD
-=======
-  
->>>>>>> 72b5351e0b253fa144ac7b2712d4baaec3b1c737
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
     "@testing-library/jest-dom": "^5.17.0",
